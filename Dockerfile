@@ -1,10 +1,19 @@
-FROM hitokizzy/geezram:slim-buster
+FROM ohshin/ubot:dev
 
-RUN git clone -b main https://github.com/hitokizzy/Geez-Pyro /home/geez/
-WORKDIR /home/geez
+WORKDIR /Geez
+RUN chmod 777 /Geez
 
-RUN wget https://raw.githubusercontent.com/hitokizzy/Geez-Pyro/main/requirements.txt \
-    && pip3 install --no-cache-dir -U -r requirements.txt \
-    && rm requirements.txt
-    
+# Installing Requirements
+RUN pip3 install -U pip
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# If u want to use /update feature, uncomment the following and edit
+#RUN git config --global user.email "your_email"
+#RUN git config --global user.name "git_username"
+
+# Copying All Source
+COPY . .
+
+# Starting Bot
 CMD bash start
